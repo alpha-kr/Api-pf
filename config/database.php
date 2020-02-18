@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Str;
+
 $DB_url=parse_url('mysql://bd1edcf32de492:23e97cdb@us-cdbr-iron-east-04.cleardb.net/heroku_a55b5d70fe58ff4?reconnect=true');
+
 return [
 
     /*
@@ -47,7 +49,7 @@ return [
             'driver' => 'mysql',
           
             'host' =>$DB_url['host'],
-            'port' =>$DB_url['port'],
+            'port' =>3306,
             'database' => ltrim($DB_url['path'],'/') ,
             'username' => $DB_url['user'],
             'password' => $DB_url['pass'],
