@@ -36,7 +36,7 @@ class UserController extends Controller
             $res=array(
                 'status'=>"error",
                 'code'=>400,
-                'messege'=> "Projecto no creado",
+                'messege'=> "Usuario no creado",
                 'mistakes'=>$vali->errors()
             ); 
         }else{
