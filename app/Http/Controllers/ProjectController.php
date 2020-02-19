@@ -26,13 +26,15 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        $json=json_decode($request->input('json',null),true);
+        $json=json_decode(json_encode($request->all()) ,true);
+        $res=array('code'=>400, 'message'=>"Error Json");
+        if (!empty($json)) {
        
         $datos=array_map('trim',$json);
        
         $validacion=\Validator::make($datos,
         [    
-            'Name'=> 'required|alpha',
+            'Name'=> 'required|string',
             'Des'=>'required',
             'StartDate'=>'date',
             'EndDate'=>'date |after:start_date'
@@ -66,6 +68,7 @@ class ProjectController extends Controller
                    
                
             }
+        }
         return response()->json($res,$res['code']);
               
     }
@@ -101,6 +104,6 @@ class ProjectController extends Controller
      */
     public function destroy(project $project)
     {
-        //
+        
     }
 }

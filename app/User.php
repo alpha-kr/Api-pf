@@ -35,7 +35,7 @@ class User extends Authenticatable
      */
     public function projets()
     {
-        return $this->belongsToMany('App\project');
+        return $this->belongsToMany('App\project')->withPivot('Role');;
     }
     protected $casts = [
         'email_verified_at' => 'datetime',

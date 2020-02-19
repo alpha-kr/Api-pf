@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\project;
 
 class UserController extends Controller
 {
@@ -25,37 +26,43 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $json=json_decode($request->input('json',null),true);
-        $datos=array_map('trim',$json);
-        $vali=\Validator::make($datos,[
-            'email'=>'required|unique:users,email|email',
-            'password'=>'required'
 
-        ]);
-        if ($vali->fails()) {
-            $res=array(
-                'status'=>"error",
-                'code'=>400,
-                'messege'=> "Usuario no creado",
-                'mistakes'=>$vali->errors()
-            ); 
-        }else{
-            $user = new User();
-            $user->email=$datos['email'];
-            $user->password=hash('sha256',$datos['password']);
-            
-            if ($user->save()) {
-                $res=array(
-                    'status'=>"OK",
-                    'code'=>201,
-                    'messege'=> "user  creado",
-                    'user'=>$user
-                    
-                ); 
+
+        $json = json_decode(json_encode($request->all()), true);
+        $res = array('code' => 400, 'message' => "Error json");
+        if (!empty($json)) {
+
+            $datos = array_map('trim', $json);
+            $vali = \Validator::make($datos, [
+                'email' => 'required|unique:users,email|email',
+                'password' => 'required'
+
+            ]);
+            if ($vali->fails()) {
+                $res = array(
+                    'status' => "error",
+                    'code' => 400,
+                    'message' => "Usuario no creado",
+                    'mistakes' => $vali->errors()
+                );
+            } else {
+                $user = new User();
+                $user->email = $datos['email'];
+                $user->password = hash('sha256', $datos['password']);
+
+                if ($user->save()) {
+                    $res = array(
+                        'status' => "OK",
+                        'code' => 201,
+                        'message' => "user  creado",
+                        'user' => $user
+
+                    );
+                }
             }
-
         }
-        return response()->json($res,$res['code']);
+
+        return response()->json($res, $res['code']);
     }
 
     /**
@@ -66,19 +73,12 @@ class UserController extends Controller
      */
     public function show(Request $request)
     {
-        $jwt= new \JWTauth();
-        $id=$jwt->checktoken($request->header('Authorization'),true)->user_id;
-        $usuario= User::find($id);
-        
-        $projects=array(
-            'status'=>'OK',
-            'code'=>'200',
-            'proyectos'=> $usuario->projets
+        $jwt = new \JWTauth();
+        $id = $jwt->checktoken($request->header('Authorization'), true)->user_id;
+        $usuario = User::find($id);
 
-        
-        );
-        return response()->json($projects,200);
-         
+        $projects = array($usuario->projets);
+        return response()->json($projects, 200);
     }
 
     /**
@@ -94,35 +94,46 @@ class UserController extends Controller
     }
     public function login(Request $request)
     {
-        $json=json_decode($request->input('json',null),true);
-        $datos=array_map('trim',$json);
-        $vali=\Validator::make($datos,[
-            'email'=>'required|email',
-            'password'=>'required'
+        $json = json_decode(json_encode($request->all()), true);
 
-        ]);
-        if ($vali->fails()) {
-            $res=array(
-                'status'=>"error",
-                'code'=>400,
-                'messege'=> "El login ha fallado",
-                'mistakes'=>$vali->errors()
-            ); 
-        }else{
+        $res = array('code' => 400, 'message' => "Error json");
+        if (!empty($json)) {
+            $datos = array_map('trim', $json);
+            $vali = \Validator::make($datos, [
+                'email' => 'required|email',
+                'password' => 'required'
 
-            $pswd=hash('sha256',$datos['password']);
-            $jwt=new \JWTauth();
-            $res=$jwt->getToken($datos['email'],$pswd);
-            if (!empty($datos['gettoken'])) {
-                $res=$jwt->getToken($datos['email'],$pswd,true);
+            ]);
+            if ($vali->fails()) {
+                $res = array(
+                    'status' => "error",
+                    'code' => 400,
+                    'messege' => "El login ha fallado",
+                    'mistakes' => $vali->errors()
+                );
+            } else {
+
+                $pswd = hash('sha256', $datos['password']);
+                $jwt = new \JWTauth();
+
+                $res = array(
+                    "status" => "succes",
+                    "code" => 200,
+                    "token" => $jwt->getToken($datos['email'], $pswd)
+
+                );
+                if (!empty($datos['gettoken'])) {
+                    $res = array(
+                        "status" => "succes",
+                        "code" => 200,
+                        "token" => $jwt->getToken($datos['email'], $pswd, true)
+
+                    );
+                }
             }
-             
-
-
         }
 
-       return response()->json($res,200);
-         
+        return response()->json($res, $res['code']);
     }
 
     /**
@@ -131,8 +142,48 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        //
+        $res = array('code' => 400, 'message' => "Error json");
+        $val=\Validator::make( ["id"=>$id],["id"=>"required|integer|exists:projects,id"] );
+        if ($val->fails()) {
+            $res = array(
+                'status' => "error",
+                'code' => 400,
+                'messege' => "Projecto con ese id no existe",
+                'mistakes' => $val->errors()
+            );
+        }else{
+            $jwt = new \JWTauth();
+            $id_user = $jwt->checktoken($request->header('Authorization'), true)->user_id;
+            $usuario = User::find($id_user);
+            $pro= $usuario->projets()->where('id', $id)->first();
+            $role =$pro->pivot->Role;
+            if ($role == "Scrum Master") {
+                $usuario->projets()->detach($id);
+    
+                if ( $pro->delete()) {
+                    $res = array(
+                        'status' => "succes",
+                        'code' => 200,
+                        'messege' => "Projecto   eliminado",
+                        'proyecto' => $pro
+                    );
+                }
+            }
+        }
+        
+
+        
+        
+
+
+
+
+
+
+
+
+        return response()->json($res, $res['code']);
     }
 }
