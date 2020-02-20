@@ -14,8 +14,9 @@ use \App\Http\Middleware\checkuser;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::post('Create/user','UserController@store');
-Route::post('Create/project','ProjectController@store')->Middleware(checkuser::class);
-Route::post('login','UserController@login');
-Route::delete('Delete/project{id}','UserController@destroy')->Middleware(checkuser::class);
-Route::post('user/projects','UserController@show')->Middleware(checkuser::class);
+Route::post('users/register','UserController@store');
+Route::post('users/login','UserController@login');
+
+Route::get('projects','UserController@show')->Middleware(checkuser::class);
+Route::post('projects','ProjectController@store')->Middleware(checkuser::class);
+Route::delete('projects/{id}','UserController@destroy')->Middleware(checkuser::class);
