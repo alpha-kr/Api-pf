@@ -75,10 +75,15 @@ class UserController extends Controller
     {
         $jwt = new \JWTauth();
         $id = $jwt->checktoken($request->header('Authorization'), true)->user_id;
-        $usuario = User::find($id);
+        if (!empty($id)) {
+           $usuario = User::find($id);
 
         $projects = array($usuario->projets);
-        return response()->json($projects, 200);
+        return response()->json($projects, 200);  
+        }else{
+            return response()->json(['error'=>'token invalido'], 400);
+        }
+       
     }
 
     /**
