@@ -78,7 +78,7 @@ class UserController extends Controller
         if (!empty($id)) {
            $usuario = User::find($id);
 
-        $projects = array($usuario->projets);
+        $projects =  $usuario->projets ;
         return response()->json($projects, 200);  
         }else{
             return response()->json(['error'=>'token invalido'], 400);
@@ -164,7 +164,7 @@ class UserController extends Controller
             $usuario = User::find($id_user);
             $pro= $usuario->projets()->where('id', $id)->first();
             $role =$pro->pivot->Role;
-            if ($role == "Scrum Master") {
+            if (!empty($id_user) && $role == "Scrum Master") {
                 $usuario->projets()->detach($id);
     
                 if ( $pro->delete()) {
