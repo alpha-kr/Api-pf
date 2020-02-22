@@ -74,7 +74,8 @@ class UserController extends Controller
     public function show(Request $request)
     {
         $jwt = new \JWTauth();
-        $id = $jwt->checktoken($request->header('Authorization'), true)->user_id;
+        $token=$jwt->checktoken($request->header('Authorization'), true);
+        $id  = (!empty($toke) )?$token->user_id:null;
         if (!empty($id)) {
            $usuario = User::find($id);
 
@@ -95,7 +96,64 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $res = array('code' => 400, 'message' => "Error json");
+        $datos=json_decode(json_encode( $request->all()),true);
+        $datos=array_merge($datos,["id"=>$id]);
+
+     
+        
+        $val=\Validator::make(  $datos  ,["id"=>"required|integer|exists:projects,id", "name"=> "required| string", "des"=>"required|string",'StartDate'=>'date','EndDate'=>'date |after:start_date'] );
+        if ($val->fails()) {
+            $res = array(
+                'status' => "error",
+                'code' => 400,  
+                'mistakes' => $val->errors()
+            );
+        }else{
+            $jwt = new \JWTauth();
+
+            $token=$jwt->checktoken($request->header('Authorization'), true);
+            $id_user = (!empty($toke) )?$token->user_id:null;
+           
+            if (!empty($id_user) ) {
+                
+                $usuario = User::find($id_user);
+                $pro= $usuario->projets()->where('id', $id)->first();
+                $role =$pro->pivot->Role;
+                if ($role == "Scrum Master") {
+                    $pro->Name=$datos['name'];
+               $pro->Des=$datos['des'];
+               $pro->StartDate=(isset($datos['StartDate']))?$datos['StartDate']:null;
+               $pro->EndDate=(isset($datos['EndDate']))?$datos['EndDate']:null;
+               if ($pro->save()) {
+                   $res=array(
+                       "status"=>"succes",
+                       "code"=>200,
+                       "message"=>"proyecto actualizado",
+                       "proyecto"=>$pro
+                   );
+               }else{
+                $res = array(
+                    'status' => "Error",
+                    'code' => 400,
+                    'messege' => "Error base de datos",
+                     
+                );
+               }
+                }
+               
+
+            }else{
+
+                $res = array(
+                    'status' => "Error",
+                    'code' => 400,
+                    'messege' => "No tienes permiso para eliminar",
+                     
+                );
+            }
+        }
+        return response()->json($res,$res['code']);
     }
     public function login(Request $request)
     {
@@ -120,16 +178,16 @@ class UserController extends Controller
 
                 $pswd = hash('sha256', $datos['password']);
                 $jwt = new \JWTauth();
-
+                $token=$jwt->getToken($datos['email'], $pswd);
                 $res = array(
-                    "status" => "succes",
-                    "code" => 200,
-                    "token" => $jwt->getToken($datos['email'], $pswd)
+                     
+                    "code" => (isset($token['code']))?400:200,
+                    "token" => $token
 
                 );
                 if (!empty($datos['gettoken'])) {
                     $res = array(
-                        "status" => "succes",
+                         
                         "code" => 200,
                         "token" => $jwt->getToken($datos['email'], $pswd, true)
 
@@ -160,11 +218,16 @@ class UserController extends Controller
             );
         }else{
             $jwt = new \JWTauth();
-            $id_user = $jwt->checktoken($request->header('Authorization'), true)->user_id;
-            $usuario = User::find($id_user);
-            $pro= $usuario->projets()->where('id', $id)->first();
-            $role =$pro->pivot->Role;
-            if (!empty($id_user) && $role == "Scrum Master") {
+
+            $token=$jwt->checktoken($request->header('Authorization'), true);
+            $id_user = (!empty($toke) )?$token->user_id:null;
+           
+            if (!empty($id_user) ) {
+                
+                $usuario = User::find($id_user);
+                $pro= $usuario->projets()->where('id', $id)->first();
+                $role =$pro->pivot->Role;
+                if ($role == "Scrum Master")  
                 $usuario->projets()->detach($id);
     
                 if ( $pro->delete()) {
@@ -175,6 +238,13 @@ class UserController extends Controller
                         'proyecto' => $pro
                     );
                 }
+            }else{
+                $res = array(
+                    'status' => "Error",
+                    'code' => 400,
+                    'messege' => "No tienes permiso para eliminar",
+                     
+                );
             }
         }
         

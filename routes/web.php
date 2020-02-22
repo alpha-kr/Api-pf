@@ -20,3 +20,4 @@ Route::post('users/login','UserController@login');
 Route::get('projects','UserController@show')->Middleware(checkuser::class);
 Route::post('projects','ProjectController@store')->Middleware(checkuser::class);
 Route::delete('projects/{id}','UserController@destroy')->Middleware(checkuser::class);
+Route::put('projects/{id}','UserController@update')->Middleware(checkuser::class);
