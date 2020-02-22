@@ -75,7 +75,7 @@ class UserController extends Controller
     {
         $jwt = new \JWTauth();
         $token=$jwt->checktoken($request->header('Authorization'), true);
-        $id  = (!empty($toke) )?$token->user_id:null;
+        $id  = (!empty($token) )?$token->user_id:null;
         if (!empty($id)) {
            $usuario = User::find($id);
 
@@ -113,7 +113,7 @@ class UserController extends Controller
             $jwt = new \JWTauth();
 
             $token=$jwt->checktoken($request->header('Authorization'), true);
-            $id_user = (!empty($toke) )?$token->user_id:null;
+            $id_user = (!empty($token) )?$token->user_id:null;
            
             if (!empty($id_user) ) {
                 
@@ -220,7 +220,7 @@ class UserController extends Controller
             $jwt = new \JWTauth();
 
             $token=$jwt->checktoken($request->header('Authorization'), true);
-            $id_user = (!empty($toke) )?$token->user_id:null;
+            $id_user = (!empty($token) )?$token->user_id:null;
            
             if (!empty($id_user) ) {
                 
