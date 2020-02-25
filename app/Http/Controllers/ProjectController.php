@@ -54,8 +54,8 @@ class ProjectController extends Controller
                 $pro=null;
                 $jwt=new \JWTauth();
                 $iduser=$jwt->checktoken($request->header('Authorization'),true) ;
-                 
-                $user=User::find($iduser->user_id);
+                 if (!empty($iduser)) {
+                    $user=User::find($iduser->user_id);
                 $pro=project::create($datos) ;
                 $user->projets()->attach($pro->id,['Role'=>1]);
                   $res=array(
@@ -65,6 +65,16 @@ class ProjectController extends Controller
                         'projecto'=>$pro
                         
                     ); 
+                 }else{
+
+                    $res=array(
+                        'status'=>"error",
+                        'code'=>400,
+                        'messege'=> "Projecto no creado",
+                        'mistakes'=> "error de token"
+                    ); 
+                 }
+                
                      
                    
                
