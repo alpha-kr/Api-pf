@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\User;
 
 use App\project;
+use App\Roles;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -145,6 +146,33 @@ class ProjectController extends Controller
                 return response()->json(["status"=>"succes" ,"message"=>"usuario:{$user->email} borrado de proyecto:{$proname}"],201);
             }
         }
+    }
+    public function updateuser(Request $request )
+    {
+        $json=json_decode(json_encode($request->all()),true );
+        if (!empty($json)) {
+            $datos = array_map('trim', $json);
+            $vali = \Validator::make($datos, [
+                    'id_user' => 'required|exists:users,id|integer',
+                    'id_project' => 'required|exists:projects,id|integer',
+                    'id_role'=>'required|exists:roles,id|integer'
+    
+                ]);
+            if ($vali->fails()) {
+                return response()->json([$vali->errors()],400);
+            }else{
+                $user=User::find($datos['id_user']);
+                
+                
+                $pro= $user->projets()->where('id', $datos['id_project'])->first() ;
+                $user->projets()->updateExistingPivot($pro, array('Role' => $datos['id_role']), false);
+                $role=Roles::find($datos['id_role']);
+                
+                return response()->json(["status"=>"succes" ,"message"=>"usuario{$user->email} actualiazdo  a role {$role->Nombre} "],201);
+            }
+        }
+        
+        
     }
 
     /**
