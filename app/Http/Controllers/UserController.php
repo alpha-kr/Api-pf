@@ -140,7 +140,16 @@ class UserController extends Controller
                      
                 );
                }
+                }else{
+
+                    $res = array(
+                        'status' => "Error",
+                        'code' => 400,
+                        'messege' => "No tienes permiso para eliminar",
+                         
+                    );
                 }
+                
                
 
             }else{
