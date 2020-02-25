@@ -20,7 +20,7 @@ Route::get('users','UserController@All');
 Route::get('Roles','RoleController@show');
 Route::post('userproject','ProjectController@addUser');
 Route::delete('userproject','ProjectController@Deleteuser');
-Route::get('userprojec/{id}','ProjectController@users');
+Route::get('userproject/{id}','ProjectController@users');
 Route::put('userproject','ProjectController@updateuser');
 Route::get('projects/{id}','ProjectController@show');
 Route::get('projects','UserController@show')->Middleware(checkuser::class);
