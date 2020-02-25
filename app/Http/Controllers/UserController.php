@@ -120,7 +120,7 @@ class UserController extends Controller
                 $usuario = User::find($id_user);
                 $pro= $usuario->projets()->where('id', $id)->first();
                 $role =$pro->pivot->Role;
-                if ($role == "Scrum Master") {
+                if ($role == 1) {
                     $pro->Name=$datos['name'];
                $pro->Des=$datos['des'];
                $pro->StartDate=(isset($datos['StartDate']))?$datos['StartDate']:null;
@@ -145,7 +145,7 @@ class UserController extends Controller
                     $res = array(
                         'status' => "Error",
                         'code' => 400,
-                        'messege' => "No tienes permiso para eliminar",
+                        'messege' => "No tienes permiso para actualizar",
                          
                     );
                 }
@@ -157,7 +157,7 @@ class UserController extends Controller
                 $res = array(
                     'status' => "Error",
                     'code' => 400,
-                    'messege' => "No tienes permiso para eliminar",
+                    'messege' => "No tienes permiso para actualizar",
                      
                 );
             }
