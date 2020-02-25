@@ -37,8 +37,8 @@ class ProjectController extends Controller
         [    
             'Name'=> 'required|string',
             'Des'=>'required |string',
-            'StartDate'=>'date |date_format:Y-m-d',
-            'EndDate'=>'date |date_format:Y-m-d|after:start_date'
+            'StartDate'=>'nullable|date |date_format:Y-m-d',
+            'EndDate'=>'nullable|date |date_format:Y-m-d|after:start_date'
             
         ]);
        
@@ -51,7 +51,7 @@ class ProjectController extends Controller
                 ); 
                  
             }else{
-                $datos=[trim( $json['Name']), trim($json['Des']),"StartDate"=>(isset($json['StartDate']))?$json['StartDate']:null,"EndDate"=>(isset($json['EndDate']))?$json['EndDate']:null];
+                $datos=['Name'=>trim( $json['Name']),'Des'=> trim($json['Des']),"StartDate"=>(isset($json['StartDate']))?$json['StartDate']:null,"EndDate"=>(isset($json['EndDate']))?$json['EndDate']:null];
                 $pro=null;
                 $jwt=new \JWTauth();
                 $iduser=$jwt->checktoken($request->header('Authorization'),true) ;
@@ -119,7 +119,10 @@ class ProjectController extends Controller
     
                 ]);
             if ($vali->fails()) {
-                return response()->json([$vali->errors()],400);
+                return response()->json([ 'status'=>"error",
+                'code'=>400,
+                'messege'=> "fallo",
+                'mistakes'=>  $vali->errors()],400);
             }else{
                 $user=User::find($datos['id_user']);
                 
@@ -199,6 +202,16 @@ class ProjectController extends Controller
     public function update(Request $request, project $project)
     {
         //
+    }
+    public function users($id)
+    {
+        $pro=project::find($id);
+        if (!empty($pro)) {
+             return response()->json($pro->user,200);
+        }else{
+
+
+        }
     }
 
     /**
