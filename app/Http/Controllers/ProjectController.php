@@ -209,7 +209,13 @@ class ProjectController extends Controller
         if (!empty($pro)) {
              return response()->json($pro->user,200);
         }else{
-
+            $res=[
+                'status'=>"error",
+                'code'=>400,
+                'messege'=> "proyecto invalido",
+                'mistakes'=> "id de proyecto no existe"
+            ];
+            return response()->json($res,400);
 
         }
     }

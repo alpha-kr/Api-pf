@@ -36,7 +36,7 @@ public function __construct()
         }else{
             $data=array(
                 'status'=>"error",
-                'code'=>400,
+                'code'=>401,
                 'messege'=> "No se puedo logear",
                 'mistakes'=>"erro en credenciales"
                  
