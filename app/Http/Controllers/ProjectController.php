@@ -31,16 +31,17 @@ class ProjectController extends Controller
         $res=array('code'=>400, 'message'=>"Error Json");
         if (!empty($json)) {
        
-        $datos=array_map('trim',$json);
-       
-        $validacion=\Validator::make($datos,
+         
+        
+        $validacion=\Validator::make($json,
         [    
             'Name'=> 'required|string',
-            'Des'=>'required',
+            'Des'=>'required |string',
             'StartDate'=>'date |date_format:Y-m-d',
             'EndDate'=>'date |date_format:Y-m-d|after:start_date'
             
         ]);
+       
             if ($validacion->fails()) {
                 $res=array(
                     'status'=>"error",
@@ -50,11 +51,12 @@ class ProjectController extends Controller
                 ); 
                  
             }else{
-                
+                $datos=[trim( $json['Name']), trim($json['Des']),"StartDate"=>(isset($json['StartDate']))?$json['StartDate']:null,"EndDate"=>(isset($json['EndDate']))?$json['EndDate']:null];
                 $pro=null;
                 $jwt=new \JWTauth();
                 $iduser=$jwt->checktoken($request->header('Authorization'),true) ;
                  if (!empty($iduser)) {
+                    
                     $user=User::find($iduser->user_id);
                 $pro=project::create($datos) ;
                 $user->projets()->attach($pro->id,['Role'=>1]);
