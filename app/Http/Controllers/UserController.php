@@ -121,7 +121,7 @@ class UserController extends Controller
                 $pro= $usuario->projets()->where('id', $id)->first();
                 $role =$pro->pivot->Role;
                 if ($role == 1) {
-                    $pro->Name=$datos['name'];
+                    $pro->Name=$datos['Name'];
                $pro->Des=$datos['des'];
                $pro->StartDate=(isset($datos['StartDate']))?$datos['StartDate']:null;
                $pro->EndDate=(isset($datos['EndDate']))?$datos['EndDate']:null;
