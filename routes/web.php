@@ -16,7 +16,9 @@ Route::get('/', function () {
 });
 Route::post('users/register','UserController@store');
 Route::post('users/login','UserController@login');
+Route::get('users','UserController@All');
 
+Route::get('project/{id}','ProjectController@show');
 Route::get('projects','UserController@show')->Middleware(checkuser::class);
 Route::post('projects','ProjectController@store')->Middleware(checkuser::class);
 Route::delete('projects/{id}','UserController@destroy')->Middleware(checkuser::class);

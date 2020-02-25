@@ -79,9 +79,13 @@ class ProjectController extends Controller
      * @param  \App\project  $project
      * @return \Illuminate\Http\Response
      */
-    public function show(project $project)
+    public function show($id)
     {
-        //
+        
+        if (!empty($id)  ) {
+           $pro=project::find($id);
+           return response()->json($pro,200);
+        }
     }
 
     /**

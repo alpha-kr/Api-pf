@@ -102,7 +102,7 @@ class UserController extends Controller
 
      
         
-        $val=\Validator::make(  $datos  ,["id"=>"required|integer|exists:projects,id", "name"=> "required| string", "des"=>"required|string",'StartDate'=>'date','EndDate'=>'date |after:start_date'] );
+        $val=\Validator::make(  $datos  ,["id"=>"required|integer|exists:projects,id", "Name"=> "required| string", "Des"=>"required|string",'StartDate'=>'date','EndDate'=>'date |after:start_date'] );
         if ($val->fails()) {
             $res = array(
                 'status' => "error",
@@ -260,5 +260,11 @@ class UserController extends Controller
 
 
         return response()->json($res, $res['code']);
+    }
+
+    public function All()
+    {
+        $usuarios=User::all();
+        return response()->json($usuarios,200);
     }
 }
