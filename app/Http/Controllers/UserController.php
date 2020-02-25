@@ -122,7 +122,7 @@ class UserController extends Controller
                 $role =$pro->pivot->Role;
                 if ($role == 1) {
                     $pro->Name=$datos['Name'];
-               $pro->Des=$datos['des'];
+               $pro->Des=$datos['Des'];
                $pro->StartDate=(isset($datos['StartDate']))?$datos['StartDate']:null;
                $pro->EndDate=(isset($datos['EndDate']))?$datos['EndDate']:null;
                if ($pro->save()) {
