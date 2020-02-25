@@ -36,8 +36,8 @@ class ProjectController extends Controller
         [    
             'Name'=> 'required|string',
             'Des'=>'required',
-            'StartDate'=>'date',
-            'EndDate'=>'date |after:start_date'
+            'StartDate'=>'date |date_format:Y-m-d',
+            'EndDate'=>'date |date_format:Y-m-d|after:start_date'
             
         ]);
             if ($validacion->fails()) {
@@ -56,7 +56,7 @@ class ProjectController extends Controller
                  
                 $user=User::find($iduser->user_id);
                 $pro=project::create($datos) ;
-                $user->projets()->attach($pro->id,['Role'=>'Scrum Master']);
+                $user->projets()->attach($pro->id,['Role'=>1]);
                   $res=array(
                         'status'=>"OK",
                         'code'=>201,
@@ -85,6 +85,65 @@ class ProjectController extends Controller
         if (!empty($id)  ) {
            $pro=project::find($id);
            return response()->json($pro,200);
+        }
+    }
+    public function userproject($id)
+    {
+        if (!empty($id)  ) {
+            $pro=project::find($id);
+            return response()->json($pro->user,200);
+         }
+    }
+    public function addUser(Request $request)
+    {
+        $json=json_decode(json_encode($request->all()),true );
+        if (!empty($json)) {
+            $datos = array_map('trim', $json);
+            $vali = \Validator::make($datos, [
+                    'id_user' => 'required|exists:users,id|integer',
+                    'id_project' => 'required|exists:projects,id|integer',
+                    'id_role'=>'required|exists:roles,id|integer'
+    
+                ]);
+            if ($vali->fails()) {
+                return response()->json([$vali->errors()],400);
+            }else{
+                $user=User::find($datos['id_user']);
+                
+                
+                $proname= $user->projets()->where('id', $datos['id_project'])->first()->Name ;
+               
+                $user->projets()->attach($datos['id_project'],['Role'=>$datos['id_role']] );
+                return response()->json(["status"=>"succes" ,"message"=>"usuario{$user->email} agregado a proyecto {$proname} "],201);
+            }
+        }
+        
+        
+
+
+    }
+    public function Deleteuser(  Request $request)
+    {
+        $json=json_decode(json_encode($request->all()),true );
+        if (!empty($json)) {
+            $datos = array_map('trim', $json);
+            $vali = \Validator::make($datos, [
+                    'id_user' => 'required|exists:users,id|integer',
+                    'id_project' => 'required|exists:projects,id|integer',
+                    
+    
+                ]);
+            if ($vali->fails()) {
+                return response()->json([$vali->errors()],400);
+            }else{
+                $user=User::find($datos['id_user']);
+                
+                
+                $proname= $user->projets()->where('id', $datos['id_project'])->first()->Name ;
+               
+                $user->projets()->detach($datos['id_project']  );
+                return response()->json(["status"=>"succes" ,"message"=>"usuario:{$user->email} borrado de proyecto:{$proname}"],201);
+            }
         }
     }
 

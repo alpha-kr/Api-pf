@@ -37,7 +37,8 @@ public function __construct()
             $data=array(
                 'status'=>"error",
                 'code'=>400,
-                'messege'=> "Usuario incorrecto",
+                'messege'=> "No se puedo logear",
+                'mistakes'=>"erro en credenciales"
                  
             ); 
 
