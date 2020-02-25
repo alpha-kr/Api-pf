@@ -102,7 +102,7 @@ class ProjectController extends Controller
     }
     public function userproject($id)
     {
-        if (!empty($id)  ) {
+        if (!empty($id)) {
             $pro=project::find($id);
             return response()->json($pro->user,200);
          }

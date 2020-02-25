@@ -10,6 +10,6 @@ class project extends Model
     protected $fillable=['Name','Des','StartDate','EndDate'];
     public function user()
     {
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany('App\User')->withPivot('Role');
     }
 }
