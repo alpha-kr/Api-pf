@@ -112,10 +112,12 @@ class ProjectController extends Controller
                 $user=User::find($datos['id_user']);
                 
                 
-                $proname= $user->projets()->where('id', $datos['id_project'])->first()->Name ;
+                $pro=Project::find($datos['id_project']);
+                $role=Roles::find($datos['id_role']);
+                
                
-                $user->projets()->attach($datos['id_project'],['Role'=>$datos['id_role']] );
-                return response()->json(["status"=>"succes" ,"message"=>"usuario{$user->email} agregado a proyecto {$proname} "],201);
+                $user->projets()->attach($pro->id,['Role'=>$datos['id_role']] );
+                return response()->json(["status"=>"succes" ,"message"=>"usuario:{$user->email} agregado a proyecto:{$pro->Name} con role:{$role->Nombre} "],201);
             }
         }
         
@@ -168,7 +170,7 @@ class ProjectController extends Controller
                 $user->projets()->updateExistingPivot($pro, array('Role' => $datos['id_role']), false);
                 $role=Roles::find($datos['id_role']);
                 
-                return response()->json(["status"=>"succes" ,"message"=>"usuario{$user->email} actualiazdo  a role {$role->Nombre} "],201);
+                return response()->json(["status"=>"succes" ,"message"=>"usuario{$user->email} actualiazdo  a role: {$role->Nombre} "],201);
             }
         }
         
