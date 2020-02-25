@@ -170,7 +170,7 @@ class ProjectController extends Controller
                 $user->projets()->updateExistingPivot($pro, array('Role' => $datos['id_role']), false);
                 $role=Roles::find($datos['id_role']);
                 
-                return response()->json(["status"=>"succes" ,"message"=>"usuario{$user->email} actualiazdo  a role: {$role->Nombre} "],201);
+                return response()->json(["status"=>"succes" ,"message"=>"usuario:{$user->email} actualiazdo  a role:{$role->Nombre} "],201);
             }
         }
         
