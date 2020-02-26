@@ -39,7 +39,7 @@ public function __construct()
                 'status'=>"error",
                 'code'=>401,
                 'messege'=> "No se puedo logear",
-                'mistakes'=>["Error"=>"error en credenciales"]
+                'mistakes'=>["Error"=>["error en credenciales"]]
                  
             ); 
 
