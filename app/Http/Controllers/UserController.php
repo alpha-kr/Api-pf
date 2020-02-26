@@ -106,7 +106,8 @@ class UserController extends Controller
         if ($val->fails()) {
             $res = array(
                 'status' => "error",
-                'code' => 400,  
+                'code' => 400,
+                'message'=>"peticion invalida",  
                 'mistakes' => $val->errors()
             );
         }else{
@@ -188,12 +189,7 @@ class UserController extends Controller
                 $pswd = hash('sha256', $datos['password']);
                 $jwt = new \JWTauth();
                 $token=$jwt->getToken($datos['email'], $pswd);
-                $res = array(
-                     
-                    "code" => (isset($token['code']))?400:200,
-                    "token" => $token
-
-                );
+                $res =  $token;
                 if (!empty($datos['gettoken'])) {
                     $res = array(
                          
@@ -271,9 +267,15 @@ class UserController extends Controller
         return response()->json($res, $res['code']);
     }
 
-    public function All()
+    public function All($word=null)
     {
-        $usuarios=User::all();
+        if (empty($word)) {
+            $usuarios=User::all();
         return response()->json($usuarios,200);
+        }else{
+            $usuarios=User:: where('email','LIKE','%'.$word.'%')->get();
+            return response()->json($usuarios,200);
+        }
+        
     }
 }

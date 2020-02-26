@@ -16,10 +16,10 @@ Route::get('/', function () {
 });
 Route::post('users/register','UserController@store');
 Route::post('users/login','UserController@login');
-Route::get('users','UserController@All');
+Route::get('users/{word?}','UserController@All');
 Route::get('Roles','RoleController@show');
 Route::post('userproject','ProjectController@addUser');
-Route::delete('userproject','ProjectController@Deleteuser');
+Route::delete('userproject/{id}/{proj}','ProjectController@Deleteuser');
 Route::get('userproject/{id}','ProjectController@users');
 Route::put('userproject','ProjectController@updateuser');
 Route::get('projects/{id}','ProjectController@show');

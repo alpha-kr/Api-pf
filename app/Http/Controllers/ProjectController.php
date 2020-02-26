@@ -113,7 +113,7 @@ class ProjectController extends Controller
         if (!empty($json)) {
             $datos = array_map('trim', $json);
             $vali = \Validator::make($datos, [
-                    'id_user' => 'required|exists:users,id|integer',
+                    'email' => 'required|exists:users,email|email',
                     'id_project' => 'required|exists:projects,id|integer',
                     'id_role'=>'required|exists:roles,id|integer'
     
@@ -124,9 +124,7 @@ class ProjectController extends Controller
                 'messege'=> "fallo",
                 'mistakes'=>  $vali->errors()],400);
             }else{
-                $user=User::find($datos['id_user']);
-                
-                
+                $user=User::where('email', $datos['email'])->first(); 
                 $pro=Project::find($datos['id_project']);
                 $role=Roles::find($datos['id_role']);
                 
@@ -140,28 +138,42 @@ class ProjectController extends Controller
 
 
     }
-    public function Deleteuser(  Request $request)
+    public function Deleteuser($id,$proj )
     {
-        $json=json_decode(json_encode($request->all()),true );
-        if (!empty($json)) {
-            $datos = array_map('trim', $json);
+        $d=["id_user"=>$id,"id_project"=>$proj];
+         
+        if (!empty($d['id_user']) && !empty($d['id_project']) ) {
+            
+            $datos=$d;
             $vali = \Validator::make($datos, [
-                    'id_user' => 'required|exists:users,id|integer',
+                'id_user' => 'required|exists:users,id|integer',
                     'id_project' => 'required|exists:projects,id|integer',
                     
     
                 ]);
             if ($vali->fails()) {
-                return response()->json([$vali->errors()],400);
+                return response()->json([ 'status'=>"error",
+                'code'=>400,
+                'messege'=> "fallo",
+                'mistakes'=>  $vali->errors()],400);
             }else{
-                $user=User::find($datos['id_user']);
+                $user=User::find( $datos['id_user']); 
                 
                 
-                $proname= $user->projets()->where('id', $datos['id_project'])->first()->Name ;
-               
+                $pro= $user->projets()->where('id', $datos['id_project'])->first()  ;
+                
+               if (!empty($pro)) {
                 $user->projets()->detach($datos['id_project']  );
-                return response()->json(["status"=>"succes" ,"message"=>"usuario:{$user->email} borrado de proyecto:{$proname}"],201);
-            }
+                return response()->json(["status"=>"succes" ,"message"=>"usuario:{$user->email} borrado de proyecto:{$pro->Name}"],201);
+     
+               }else{
+                return response()->json([ 'status'=>"error",
+                'code'=>400,
+                'messege'=> "fallo",
+                'mistakes'=> ["Error"=>"Usuario no pertenece a ese proyecto"] ],400);
+
+               }
+                      }
         }
     }
     public function updateuser(Request $request )
@@ -170,23 +182,36 @@ class ProjectController extends Controller
         if (!empty($json)) {
             $datos = array_map('trim', $json);
             $vali = \Validator::make($datos, [
-                    'id_user' => 'required|exists:users,id|integer',
+                    'email' => 'required|exists:users,email|email',
                     'id_project' => 'required|exists:projects,id|integer',
                     'id_role'=>'required|exists:roles,id|integer'
     
                 ]);
             if ($vali->fails()) {
-                return response()->json([$vali->errors()],400);
+                return response()->json([ 'status'=>"error",
+                'code'=>400,
+                'messege'=> "fallo",
+                'mistakes'=>  $vali->errors()],400);
             }else{
-                $user=User::find($datos['id_user']);
+                $user=User::where('email', $datos['email'])->first(); 
                 
                 
                 $pro= $user->projets()->where('id', $datos['id_project'])->first() ;
-                $user->projets()->updateExistingPivot($pro, array('Role' => $datos['id_role']), false);
+                if (!empty($pro)) {
+                    $user->projets()->updateExistingPivot($pro, array('Role' => $datos['id_role']), false);
                 $role=Roles::find($datos['id_role']);
                 
                 return response()->json(["status"=>"succes" ,"message"=>"usuario:{$user->email} actualiazdo  a role:{$role->Nombre} "],201);
-            }
+ 
+                }else{
+                    return response()->json([ 'status'=>"error",
+                    'code'=>400,
+                    'messege'=> "fallo",
+                    'mistakes'=> ["Error"=>"Usuario no pertenece a ese proyecto"] ],400);
+    
+
+                }
+                           }
         }
         
         

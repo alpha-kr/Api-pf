@@ -29,16 +29,17 @@ public function __construct()
             $Dtoken=JWT::decode($Gtoken,$this->key,['HS256'] );
 
             if (is_null($token)) {
-                $data=$Gtoken;
+                $data=$data=["status"=>"succes","code"=>200, "token"=>$Gtoken];
             }else{
-                $data=$Dtoken;
+                $data=["status"=>"succes","code"=>200,  "usuario"=>$Dtoken];
+              
             }
         }else{
             $data=array(
                 'status'=>"error",
                 'code'=>401,
                 'messege'=> "No se puedo logear",
-                'mistakes'=>"erro en credenciales"
+                'mistakes'=>["Error"=>"error en credenciales"]
                  
             ); 
 
