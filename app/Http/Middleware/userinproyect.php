@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class checkuser
+class userinproyect
 {
     /**
      * Handle an incoming request.
@@ -16,8 +16,8 @@ class checkuser
     public function handle($request, Closure $next)
     {
         $token=$request->header('Authorization');
-      
-         
+        $json = json_decode(json_encode($request->all()), true);
+        $pro=$json['id'];
         $sw= new \JWTauth();
         
         $data=array(
@@ -27,12 +27,11 @@ class checkuser
              
         );
         
-        if ( !$sw->checktoken($token) && empty($token)    ) {
+        if ( !$sw->checktoken($token,$pro) && empty($token)    ) {
             return response()->json($data,$data['code']);
         }else{
             
             return $next($request);
         }
-        
     }
 }

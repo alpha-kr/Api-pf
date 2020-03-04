@@ -13,7 +13,7 @@ public function __construct()
 {
     $this->key="mi clave del token es esta";
 } 
-    public function getToken($u,$p,$token=null)
+    public function getToken($u,$p,$token=null )
     {
 
         $user=User::where(['email'=>$u,'password'=>$p])->first();
@@ -51,7 +51,7 @@ public function __construct()
 
         return $data;
     }
-    public function checktoken($token, $getIdentity=false)
+    public function checktoken($token, $getIdentity=false,$pro=null)
     {
      
         $valido=false;
@@ -59,7 +59,18 @@ public function __construct()
             $token=str_replace('"','',$token);
             $Dtoken=JWT::decode($token,$this->key,['HS256'] );
             if (!empty($Dtoken) && is_object($Dtoken) && isset($Dtoken->user_id)) {
-                $valido=true;
+                $u=User::find($Dtoken->user_id);
+                if (!empty($pro) && is_integer($pro)) {
+                    $proj=$u->projects()->where('id', $id)->first();
+                    if (empty($proj)) {
+                         return false;
+                    }else{
+                        return true;
+                    }
+                }else{
+                    $valido=true;
+                }
+                
              if ($getIdentity) {
                  $valido=$Dtoken;
              }

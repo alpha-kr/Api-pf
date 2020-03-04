@@ -1,5 +1,6 @@
 <?php
 use \App\Http\Middleware\checkuser;
+use \App\Http\Middleware\checkuserpro;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,6 +19,10 @@ Route::post('users/register','UserController@store');
 Route::post('users/login','UserController@login');
 Route::get('users/{word?}','UserController@All');
 Route::get('Roles','RoleController@show');
+Route::post('userstory','UserstoriesController@store')->Middleware(checkuserpro::class);
+Route::get('userstory/{id}','UserstoriesController@show')->Middleware(checkuserpro::class);
+Route::delete('userstory/{id}','UserstoriesController@destroy')->Middleware(checkuserpro::class);
+Route::put('userstory','UserstoriesController@update')->Middleware(checkuserpro::class);
 Route::post('userproject','ProjectController@addUser');
 Route::delete('userproject/{id}/{proj}','ProjectController@Deleteuser');
 Route::get('userproject/{id}','ProjectController@users');
