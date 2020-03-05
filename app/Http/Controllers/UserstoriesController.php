@@ -32,7 +32,7 @@ class UserstoriesController extends Controller
         $res=array('code'=>400, 'message'=>"Error Json");
         if (!empty($json)) {
             $validacion=\Validator::make($json,
-            [    'id'=>' required|integer|exists:projects,id',
+            [    'ProjectID'=>' required|integer|exists:projects,id',
                 'Name'=> 'required|string',
                 'Description'=>'required |string',
                                  
@@ -47,7 +47,7 @@ class UserstoriesController extends Controller
                     ); 
                     return response()->json($res,$res['code']);
                 }else{
-                    $id=$json['id'];
+                    $id=$json['ProjectID'];
                     $datos=['Name'=>trim( $json['Name']),'Description'=> trim($json['Description'])];
                     $pro=project::find($id);
                     $story = new userstory ($datos);
@@ -102,7 +102,7 @@ class UserstoriesController extends Controller
         if (!empty($json)) {
             $validacion=\Validator::make($json,
             [    'id'=>' required|integer|exists:userstory,id',
-                    'id_pro'=>'required|integer|exists:projects,id',
+                    'ProjectID'=>'required|integer|exists:projects,id',
                 'Name'=> 'required|string',
                 'Description'=>'required |string',
                                  
@@ -117,7 +117,7 @@ class UserstoriesController extends Controller
                     ); 
                     return response()->json($res,$res['code']);
                 }
-                $projecto=project::find($json['id_pro']);
+                $projecto=project::find($json['ProjectID']);
                  
                   
                 if (!empty($projecto)) {
