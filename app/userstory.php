@@ -10,6 +10,10 @@ class userstory extends Model
     protected $fillable=['Name','Description'];
     public function project()
     {
-       return $this->belongsto('App\project');
+       return $this->belongsTo('App\project');
+    }
+    public function tasks()
+    {
+        return $this->hasMany('App\task');
     }
 }

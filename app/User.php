@@ -37,6 +37,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\project')->withPivot('Role');
     }
+    public function taks()
+    {
+        return $this->belongsToMany('App\task','TaskID');
+    }
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];

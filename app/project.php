@@ -16,4 +16,8 @@ class project extends Model
     {
         return $this->hasmany('App\userstory','ProjectID');
     }
+    public function tasks()
+    {
+       return $this->hasMany('App\task','ProjectID');
+    }
 }
