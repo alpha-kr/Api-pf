@@ -26,4 +26,12 @@ class task extends Model
    {
       return $this->belongsTo('App\userstory','UserStoryID');
    }
+   public function comments()
+   {
+      return $this->hasMany('App\commets','id_task');
+   }
+   public function commentes_files()
+   {
+      return $this->comments()->with('files');
+   }
 }

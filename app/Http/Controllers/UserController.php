@@ -191,8 +191,9 @@ class UserController extends Controller
                 $token=$jwt->getToken($datos['email'], $pswd);
                 $res =  $token;
                 if (!empty($datos['gettoken'])) {
+                    $user=User::where('email',$datos['email'])->first();
                     $res = array(
-                         
+                         "id_user"=> $user->id,
                         "code" => 200,
                         "token" => $jwt->getToken($datos['email'], $pswd, true)
 

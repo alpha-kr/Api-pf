@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\task;
 use App\project;
+use App\User;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -76,7 +77,7 @@ class TaskController extends Controller
        
           if (!empty($pro)) {
               
-            return response()->json($pro->tasks,200);
+            return response()->json($pro->tasks()->with('commentes_files')->get(),200);
 
           }
        } 
@@ -84,10 +85,10 @@ class TaskController extends Controller
     public function show($id=null)
     {
         if (!empty($id)) {
-            $task=task::find($id);
+            $task=task::with('comments')->find($id) ;
             return response()->json($task,200);
          }else{
-            $task=task::all();
+            $task=task::with('comments')->get();
             return response()->json($task,200);
 
          }
@@ -172,5 +173,18 @@ class TaskController extends Controller
 
          } 
         
+    }
+    public function addUser(Request $request)
+    {
+        $json=json_decode(json_encode($request->All()),true);
+
+        $val=Validator::make($json,['email'=>'email|exists:users,email',
+                                    'id-task'=>'integer|exists:tasks,id']);
+        if ($val->fails()) {
+            $t=task::find($json['id_task']);
+            $user=User::where('email',$json['email'])->first();
+            $t->users()->attach($user->id);
+
+        }
     }
 }

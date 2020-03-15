@@ -15,6 +15,11 @@ use \App\Http\Middleware\checkuserpro;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('files/{id}','FileController@show');
+Route::delete('files/{id}','FileController@destroy');
+Route::put('comments','commentsController@update');
+Route::post('comments','CommentsController@store');
+Route::delete('comments/{id}','CommentsController@destroy');
 Route::put('task','TaskController@update');
 Route::delete('task/{id?}','TaskController@destroy');
 Route::get('task/{id?}','TaskController@show');
