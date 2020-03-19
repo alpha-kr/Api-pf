@@ -80,6 +80,53 @@ class CommentsController extends Controller
             return \response()->json($res, 200);
         }
     }
+    public function addfile(Request $request)
+    {
+        $json = json_encode($request->all());
+        $json = \json_decode($json, true);
+       
+         
+        $val = \Validator::make(
+            $json,
+            [
+                'id' => 'required|exists:comments,id',
+                'files'=>'required|array'
+            ]
+        );
+        
+        if ($val->fails()) {
+            $res = array(
+                'status' => "error",
+                'code' => 400,
+                'messege' => "error  archivo no subido",
+                'mistakes' => $val->errors()
+            );
+            return response()->json($res, 400);
+        }else{
+            $comment=commets::find($json['id']);
+            foreach ($json['files'] as $file) { 
+                $filename =  Str::random(5).''.$file['extension'];
+                if ($archivo=base64_decode($file['base64'])) {
+                    \File::put(storage_path(). '/app/' . $filename, $archivo);
+                    
+                    $dbfile= new file(['ruta'=>  $filename]);
+                    $comment->files()->save($dbfile);
+                }
+               
+               
+               }
+               $res = array(
+                'status' => "OK",
+                'code' => 201,
+                'messege' => "arhivo agregado a comentario {$json['id']}",
+                'comentarios' => $comment
+
+            );
+            return \response()->json($res, 200);
+
+        }
+        
+    }
 
     /**
      * Display the specified resource.
