@@ -165,10 +165,10 @@ class CommentsController extends Controller
                $comment->save();
                $res = array(
                 'status' => "OK",
-                'code' => 201,
+                'code' => 200,
                 'messege' => "comentario   actualizado",
                 'comentarios' => $comment);
-                return response()->json($res, 400);
+                return response()->json($res, $res['code']);
             }
 
 
