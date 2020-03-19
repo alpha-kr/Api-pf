@@ -119,7 +119,7 @@ class CommentsController extends Controller
                 'status' => "OK",
                 'code' => 201,
                 'messege' => "arhivo agregado a comentario {$json['id']}",
-                'comentarios' => $comment
+                'comentario' => $comment
 
             );
             return \response()->json($res, 200);
