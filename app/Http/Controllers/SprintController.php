@@ -32,7 +32,7 @@ class SprintController extends Controller
           'Name'=> 'required|string',
           'Project_id'=>'required| exists:projects,id',
           'StartDate'=>'required|date |date_format:Y-m-d',
-          'EndDate'=>'required|date |date_format:Y-m-d|after:Start_date'
+          'EndDate'=>'required|date |date_format:Y-m-d|after:StartDate'
           
       ]);
      
@@ -94,8 +94,8 @@ class SprintController extends Controller
       $validacion=\Validator::make($json,
       [    'id'=>'required|exists:sprints,id',
           'Name'=> 'required|string',
-          'StartDate'=>'date|date_format:Y-m-dd',
-          'EndDate'=>'date|date_format:Y-m-dd|after:Start_date'
+          'StartDate'=>'date|date_format:Y-m-d',
+          'EndDate'=>'date|date_format:Y-m-d|after:StartDate'
           
       ]);
      
