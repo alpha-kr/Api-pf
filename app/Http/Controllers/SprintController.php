@@ -94,8 +94,8 @@ class SprintController extends Controller
       $validacion=\Validator::make($json,
       [    'id'=>'required|exists:sprints,id',
           'Name'=> 'required|string',
-          'StartDate'=>'date|date_format:Y-m-d',
-          'EndDate'=>'date|date_format:Y-m-d|after:Start_date'
+          'StartDate'=>'date|date_format:Y-m-dd',
+          'EndDate'=>'date|date_format:Y-m-dd|after:Start_date'
           
       ]);
      
@@ -141,7 +141,7 @@ class SprintController extends Controller
             'messege'=> "Sprint   eliminado",
           
         );
-        return \response()->json($res,400);
+        return \response()->json($res,200);
        }else{
         $res=array(
             'status'=>"error",
