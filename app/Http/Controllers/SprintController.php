@@ -50,7 +50,7 @@ class SprintController extends Controller
               $sprint= new sprint($json);
               if ($sprint->save()) {
                  
-                return response()->json(['status'=>'succes','code'=>201,'id'=>$sprint->id,'message'=>'sprint  creada']);
+                return response()->json(['status'=>'succes','code'=>201,'id'=>$sprint,'message'=>'sprint  creada']);
 
               }
           }
@@ -67,9 +67,9 @@ class SprintController extends Controller
         if (empty($id)) {
            return sprint::all();
         }
-        $sprint=sprint::find($id);
+        $sprint=sprint::with('tasks')->where('id',$id)->get();
        if (!empty($sprint)) {
-           return $sprint->with('tasks')->get();
+           return $sprint;
        }else{
         $res=array(
             'status'=>"error",
