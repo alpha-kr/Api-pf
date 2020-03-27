@@ -176,6 +176,13 @@ class ProjectController extends Controller
                       }
         }
     }
+    public function showsprint($id)
+    {
+        $pro=project::find($id);
+        if (!empty($pro)) {
+            return response()->json($pro->sprints,200);
+        }
+    }
     public function updateuser(Request $request )
     {
         $json=json_decode(json_encode($request->all()),true );

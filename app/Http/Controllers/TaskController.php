@@ -84,10 +84,10 @@ class TaskController extends Controller
     }
     public function show($id=null)
     {
-        if (!empty($id)) {
+        if (!empty($id)) {           
             $task=task::with('comments')->find($id) ;
             return response()->json($task,200);
-         }else{
+         }else{            
             $task=task::with('comments')->get();
             return response()->json($task,200);
 

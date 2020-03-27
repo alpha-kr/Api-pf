@@ -15,6 +15,10 @@ use \App\Http\Middleware\checkuserpro;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('sprints/{id?}','SprintController@show');
+Route::post('sprints','SprintController@store');
+Route::put('sprints','SprintController@update');
+Route::delete('sprints/{id}','SprintController@destroy');
 Route::get('files/{id}','FileController@show');
 Route::delete('files/{id}','FileController@destroy');
 Route::put('comments','CommentsController@update');
@@ -39,6 +43,7 @@ Route::delete('userproject/{id}/{proj}','ProjectController@Deleteuser');
 Route::get('userproject/{id}','ProjectController@users');
 Route::put('userproject','ProjectController@updateuser');
 Route::get('projects/{id}','ProjectController@show');
+Route::get('projects/sprint/{id}','ProjectController@showsprint');
 Route::get('projects','UserController@show')->Middleware(checkuser::class);
 Route::get('project/task/{id}','TaskController@show_project_task');
 Route::post('projects','ProjectController@store')->Middleware(checkuser::class);
