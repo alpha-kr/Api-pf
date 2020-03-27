@@ -38,7 +38,7 @@ class ProjectController extends Controller
             'Name'=> 'required|string',
             'Des'=>'required |string',
             'StartDate'=>'nullable|date |date_format:Y-m-d',
-            'EndDate'=>'nullable|date |date_format:Y-m-d|after:start_date'
+            'EndDate'=>'nullable|date |date_format:Y-m-d|after:StartDate'
             
         ]);
        

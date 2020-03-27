@@ -50,7 +50,7 @@ class SprintController extends Controller
               $sprint= new sprint($json);
               if ($sprint->save()) {
                  
-                return response()->json(['status'=>'succes','code'=>201,'message'=>'sprint  creada']);
+                return response()->json(['status'=>'succes','code'=>201,'id'=>$sprint->id,'message'=>'sprint  creada']);
 
               }
           }
