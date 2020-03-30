@@ -108,7 +108,7 @@ class TaskController extends Controller
         $res=array('code'=>400, 'message'=>"Error Json");
         if (!empty($json)) {
             $validacion=\Validator::make($json,
-            [    'id'=>'required |integer |nullable|exists:tasks,id',
+            [    'id'=>'required |nullable|exists:tasks,id',
                 'Name'=> 'required|string',
                 'Description'=>'required |string',
                 'Status'=>'required |integer |exists:status,id',
