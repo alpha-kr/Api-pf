@@ -11,7 +11,7 @@ class task extends Model
 
    public function users()
    {
-      return $this->belongsToMany('App\User','task_user','TaskID','UserID');
+      return $this->belongsToMany('App\User');
    }
    public function sprint()
    {

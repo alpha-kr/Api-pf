@@ -178,13 +178,54 @@ class TaskController extends Controller
     {
         $json=json_decode(json_encode($request->All()),true);
 
-        $val=Validator::make($json,['email'=>'email|exists:users,email',
-                                    'id-task'=>'integer|exists:tasks,id']);
-        if ($val->fails()) {
-            $t=task::find($json['id_task']);
+        $val=\Validator::make($json,['email'=>'required|email|exists:users,email',
+                                    'id-task'=>'required|integer|exists:tasks,id']);
+        if (!$val->fails()) {
+            $t=task::find($json['id-task']);
             $user=User::where('email',$json['email'])->first();
             $t->users()->attach($user->id);
+            return response()->json(['status'=>'succes','code'=>200,'message'=>'usuario  agregado']);
 
+
+
+        }else{
+                $res=array(
+                'status'=>"error",
+                'code'=>400,
+                'messege'=> "usurio no agregado",
+                'mistakes'=>$val->errors()
+                
+            );
+            return \response()->json($res,400);
+        }
+    }
+    public function showUser($id=null)
+    {
+        echo"hola";
+        $task=task::find($id);
+        if (!empty($task)) {
+            return \response()->json($task->users,200);
+            
+        }else{
+            echo "hola";
+            return \response()->json(task::all(),200);
+        }
+        
+    }
+    public function destroyUser($id,$iduser)
+    {
+        /* $task=task::find($id); */
+        /* $user=$task->users()->where('id',$iduser)->first(); */
+        $user=User::find($iduser);
+        $task=$user->tasks()->where('id',$id)->first();
+        if (!empty($task) && !empty($user)) {
+             $task->users()->detach($user->id); 
+             return response()->json(["status"=>"succes" ,"message"=>"usuario:{$user->email} borrado de tarea:{$task->Name}"],200);
+        }else{
+            response()->json([ 'status'=>"error",
+                'code'=>400,
+                'messege'=> "fallo",
+                'mistakes'=> ["Error"=>"Usuario no pertenece a esa tarea o id incorrectos en ambos casos"] ],400);
         }
     }
 }
