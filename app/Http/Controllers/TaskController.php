@@ -178,9 +178,8 @@ class TaskController extends Controller
     {
         $json=json_decode(json_encode($request->All()),true);
        $iduser=isset($json['id-user'])?$json['id-user']:null;
-        $val=\Validator::make($json,[  'id-task'=>'required|integer|exists:tasks,id',
-        'id-user'=>'required|integer|exists:users,id',
-        'id-user'=>'unique:task_user,user_id,NULL,user_id,task_id,'.$iduser ]);
+        $val=\Validator::make($json,[  'id-task'=>'required|integer|exists:tasks,id| unique:task_user,task_id,null,task_id,user_id,'.$iduser,
+        'id-user'=>'required|integer|exists:users,id' ]);
         if (!$val->fails()) {
             $t=task::find($json['id-task']);
             $user=User::find($json['id-user']);
