@@ -177,12 +177,12 @@ class TaskController extends Controller
     public function addUser(Request $request)
     {
         $json=json_decode(json_encode($request->All()),true);
-       $iduser=isset($json['id-user'])?$json['id-user']:null;
-        $val=\Validator::make($json,[  'id-task'=>'required|integer|exists:tasks,id| unique:task_user,task_id,null,task_id,user_id,'.$iduser,
-        'id-user'=>'required|integer|exists:users,id' ]);
+       $iduser=isset($json['user'])?$json['user']:null;
+        $val=\Validator::make($json,[  'task'=>'required|integer|exists:tasks,id| unique:task_user,task_id,null,task_id,user_id,'.$iduser,
+        'user'=>'required|integer|exists:users,id' ]);
         if (!$val->fails()) {
-            $t=task::find($json['id-task']);
-            $user=User::find($json['id-user']);
+            $t=task::find($json['task']);
+            $user=User::find($json['user']);
             $t->users()->attach($user->id);
             return response()->json(['status'=>'succes','code'=>200,'message'=>'usuario  agregado']);
 
