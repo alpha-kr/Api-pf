@@ -29,7 +29,7 @@ public function __construct()
             $Dtoken=JWT::decode($Gtoken,$this->key,['HS256'] );
 
             if (is_null($token)) {
-                $data=$data=["status"=>"succes","code"=>200, "token"=>$Gtoken];
+                $data=$data=["status"=>"succes","code"=>200,"id_user"=>$user->id, "token"=>$Gtoken];
             }else{
                 $data=["status"=>"succes","code"=>200,  "usuario"=>$Dtoken];
               
