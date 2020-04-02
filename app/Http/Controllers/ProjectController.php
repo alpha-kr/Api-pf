@@ -163,8 +163,8 @@ class ProjectController extends Controller
                 $pro= $user->projets()->where('id', $datos['id_project'])->first()  ;
                 
                if (!empty($pro)) {
-                foreach($user->tasks as $task)
-                $user->tasks()->detach($task->pivot->task_id);
+                foreach($pro->tasks as $task)
+                $user->tasks()->detach($task->id);
                 $user->projets()->detach($datos['id_project']  );
                 
                 return response()->json(["status"=>"succes" ,"message"=>"usuario:{$user->email} borrado de proyecto:{$pro->Name}"],201);
