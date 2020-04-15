@@ -32,8 +32,8 @@ class meetingsController extends Controller
             'Name'=> 'required|string',
             'descripcion'=> 'required|string',
             'Project_id'=>'required| exists:projects,id',
-            'StartDate'=>'required|date |date_format:Y-m-d',
-            'EndDate'=>'required|date |date_format:Y-m-d|after:StartDate'
+            'StartDate'=>'required|date |date_format:Y-m-d H:i:s',
+            'EndDate'=>'required|date |date_format:Y-m-d H:i:s|after:StartDate'
 
         ]);
 
@@ -103,8 +103,8 @@ class meetingsController extends Controller
         [    'id'=>'required|exists:meetings,id',
             'Name'=> 'required|string',
             'descripcion'=> 'required|string',
-            'StartDate'=>'date|date_format:Y-m-d',
-            'EndDate'=>'date|date_format:Y-m-d|after:StartDate'
+            'StartDate'=>'date|date_format:Y-m-d H:i:s',
+            'EndDate'=>'date|date_format:Y-m-d H:i:s|after:StartDate'
 
         ]);
 
