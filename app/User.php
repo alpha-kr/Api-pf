@@ -37,6 +37,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\project')->withPivot('Role');
     }
+    public function meetings()
+    {
+        return $this->belongsToMany('App\meetings');
+    }
     public function tasks()
     {
         return $this->belongsToMany('App\task');

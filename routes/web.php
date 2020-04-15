@@ -15,6 +15,14 @@ use \App\Http\Middleware\checkuserpro;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::delete('meetings/user','meetingsController@delete_user');
+Route::post('meetings/user','meetingsController@add_users');
+Route::get('meetings/user/{id}','meetingsController@showUsers');
+Route::get('meetings/{id?}','meetingsController@show');
+Route::get('meetings/project/{id}','meetingsController@meetings_pro');
+Route::post('meetings','meetingsController@store');
+Route::put('meetings','meetingsController@update');
+Route::delete('meetings/{id}','meetingsController@destroy');
 Route::get('sprints/{id?}','SprintController@show');
 Route::post('sprints','SprintController@store');
 Route::put('sprints','SprintController@update');

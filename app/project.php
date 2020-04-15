@@ -12,6 +12,10 @@ class project extends Model
     {
         return $this->belongsToMany('App\User')->withPivot('Role');
     }
+    public function meetings()
+    {
+        return $this->hasMany('App\meetings');
+    }
     public function userstories()
     {
         return $this->hasmany('App\userstory','ProjectID');
