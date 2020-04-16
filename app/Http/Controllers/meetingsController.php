@@ -218,9 +218,9 @@ class meetingsController extends Controller
            return \response()->json($m->users,200);
        }
     }
-    public function delete_user(Request $request)
+    public function delete_user($idu,$idm  )
     {
-        $json=json_decode(json_encode($request->all()),true );
+        $json=['user_id' =>$idu,'meetings_id'=>$idm];
         if (!empty($json)) {
             $datos = array_map('trim', $json);
             $vali = \Validator::make($datos, [
