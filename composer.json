@@ -11,6 +11,7 @@
         "php": "^7.2",
         "fideloper/proxy": "^4.0",
         "firebase/php-jwt": "^5.0",
+        "kreait/laravel-firebase": "^2.0",
         "laravel/framework": "^6.2",
         "laravel/tinker": "^2.0",
         "nesbot/carbon": "^2.32"
