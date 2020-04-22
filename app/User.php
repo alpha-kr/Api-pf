@@ -45,6 +45,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\task');
     }
+    public function tokens()
+    {
+        return $this->hasMany('App\tokenUser','user');
+    }
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];

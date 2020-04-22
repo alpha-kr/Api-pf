@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 use App\meetings;
 use Illuminate\Http\Request;
 use App\project;
+use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Firebase\Factory;
+use Kreait\Firebase\Messaging\Notification;
 use App\User;
 
 class meetingsController extends Controller
@@ -178,6 +181,10 @@ class meetingsController extends Controller
                 $pro=$meeting->project;
                 $user=$pro->user()->where('id',$json['user_id'])->first();
                 if (!empty($user)) {
+                    foreach ($user->tokens as $usertoken) {
+                        $this->enviar("Te agregaron a una reunion","Tu equipo de  $pro->Name","https://retos-directivos.eae.es/wp-content/uploads/2017/07/iStock-603992138-e1501191253921.jpg",$usertoken->token);
+
+                    }
 
                     $user->meetings()->attach($meeting->id);
                     $res=array(
@@ -269,4 +276,21 @@ class meetingsController extends Controller
             }
 
     }
+    public function enviar($title,$body,$img=null, $token)
+{
+
+
+
+    $firebase  = (new Factory)->withServiceAccount(__DIR__.'/firebasekey.json');
+    $notification = Notification::fromArray([
+        'title' => $title,
+        'body' => $body,
+        'image' => $img
+    ]);
+    $messaging = $firebase->createMessaging();
+    $message = CloudMessage::withTarget('token',$token)
+        ->withNotification($notification)
+        ->withData(['score' => '1.0']);
+        $messaging->send($message);
+}
 }
