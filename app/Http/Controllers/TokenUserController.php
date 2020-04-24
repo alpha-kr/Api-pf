@@ -28,6 +28,19 @@ class TokenUserController extends Controller
         $json=json_decode(json_encode($request->All()),true);
     $val=\Validator::make($json,['user'=>'required|integer| exists:users,id','token'=>'required']);
     if (!$val->fails()) {
+        $usertoken= tokenUser::where('user',$json['user'])->first();
+
+            if ( !empty($usertoken)) {
+                $usertoken->token=$json['token'];
+            $usertoken->save();
+            $res=array(
+                'status'=>"succes",
+                'code'=>201,
+                'messege'=> "usuario y token actualizado",
+
+            );
+            return \response()->json($res,200);
+            }
         $usertoken= new tokenUser($json);
         $usertoken->save();
         $res=array(
