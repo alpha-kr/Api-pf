@@ -1,12 +1,40 @@
 {
-  "type": "service_account",
-  "project_id": "aja-example",
-  "private_key_id": "19fb5f73e75ef7366ee0e990d107c28b51e3d313",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC+F5ZHUtFgNDaO\n99Rj3EzCOimIumc1tHJo1PzjfWYwGRj8Ng6ilroKmVKmmPscuw9L+n9PARn94VNZ\nEZPCOTMv3yjamd8rj3YNylge3WyWPhlxbfLPt9JL+tCeAIHYAWLPAXxMiDPSJNYm\nMsQdpwlQt8e/6vvOwM0jfEp4O1k8pzsj/H/EY1y22pJYSLjk1gPzhEecfmBO4BrG\nnGX9k7jgqglsBI97UAw+jKaEWIdJRhGjuXDOTnV0/eDmAMoPCVei7WGDF3l9WfVR\nfd0l8uqWPqBqe17tmx4ARH4dSlRAqugmgO2cubUw3OnDIOL08fLcSIAVkYk2xGza\nZr5txw11AgMBAAECggEAGWgPJJi/1bcczKZ4i2FEHBiIeRcK2N11hifjZedae1a7\nZWg3NAlns6dy6cPcGiaxQHMqRU2tIubVDDxCbqzU99LAg9kZgBm0SlsPRI7NJtaF\ncYjjsVoNAC01aUzBjfR/d5HoAlWY8X8NZT0XQ6xR3Sk3CCJYxfU0ZcgErwWlo2qu\nhnAsxZGsPTPrSlnUdDc9h3Lc2TB9G6nQF10mWkCCoPyBkxSFPWreBWZy0nkjcsxF\nuNdFPIIj9xdkTDJkscBI3yCQT6FYYZ9krAGkrh47woAPWdTSvdMzEEH+m5P8EZ3D\npxlt7R6eufMZs1sg6cJbGaS/mc2RcWda8e2ILG3LuQKBgQDkd5aJ8QsVtr9qWqW9\nKZAyKlVudUnDZ4WMZcb5Y5CQPaIjEfR1x9K1kr2LWSOID7k69tFxzENPqBIi1ZUr\np9+jYpB3YH0gO9fkbr2Y134gqWAtbb9Jo6dc0U7j+i2YX18RwGcE8sxm1zrbjAgW\n4k53oPyisU9UslOQf9FbchfhCQKBgQDVABiuD4m0XIHuNbugcwbums+5BlDuhzdf\n+9XZVzohJdB6TqH1kI+krsp9O4B2IFfm5mT8ujz+aUzSFr4GfO/kGOyMfRUzaoig\nPlChuHR8R2cK2ZmDgQffcs5xXymEHuj4y3hUrru8TBd7cTm97FvlUqrKtQ6TvL5q\nwfyWwFOgDQKBgQCz1TYXijaRdvGgw41mIkswUYZBlezj9J54brx6HVbzUrBHLqDf\n/NPsvH6aKyX+uXGx6gneq0vobYEpDjmGzXMJZlIUxUx4jOJZGpn+rtDG4Multpc1\nXa4lL1QLuyccoyVwEaSFjqA56vyXR9guOyBMpdl2Ll8laeDBAvtGIb6OEQKBgB0B\nx1qk+Q7b7kHfhW7DW3VRFerPpmPlfDARHr1beKoc+Tg+zyWfC0DVIPRPDx6HJxFl\n3Ojh//5xnqmZuUUu7Ih2sHgtbJ606mhQNDDh6tMl8i1zFsnm34iZnO2plQDOKNIA\n+6EkrqJlBmmkMMXhk142lNXINHUAJjppsplhFcJdAoGBAKzD+hVZjYWn3+jKsU7J\nxA5Xq4o0gyHq+mAhhNBgvHKMls39euLdGHYY1vdwudHrzCREJEzl+z1Hi92fQWEk\nacmfCR+5Bf/Q47rcSaTLNqcsaS1KDxqOQOnj/CrZuEqi84xqMg6THDLx57TT0Km3\nL8Sg8vhUHwvzS/nmeeoSf1er\n-----END PRIVATE KEY-----\n",
-  "client_email": "firebase-adminsdk-rw44o@aja-example.iam.gserviceaccount.com",
-  "client_id": "114718626682169255949",
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://oauth2.googleapis.com/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-rw44o%40aja-example.iam.gserviceaccount.com"
+  "project_info": {
+    "project_number": "817333762245",
+    "firebase_url": "https://jaj-proyect.firebaseio.com",
+    "project_id": "jaj-proyect",
+    "storage_bucket": "jaj-proyect.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:817333762245:android:d7a44f76a8232948b598ac",
+        "android_client_info": {
+          "package_name": "com.companyname.jaj.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "817333762245-0nvl52f2gh28fuh2i0q6c50kihqkvco8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyGwtoh2XTHPOnv-IDLh_cN1tNMD0rQBE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "817333762245-0nvl52f2gh28fuh2i0q6c50kihqkvco8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
 }

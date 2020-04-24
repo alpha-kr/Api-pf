@@ -182,7 +182,7 @@ class meetingsController extends Controller
                 $user=$pro->user()->where('id',$json['user_id'])->first();
                 if (!empty($user)) {
                     foreach ($user->tokens as $usertoken) {
-                        $this->enviar("Te agregaron a una reunion","Tu equipo de  $pro->Name","https://retos-directivos.eae.es/wp-content/uploads/2017/07/iStock-603992138-e1501191253921.jpg",$usertoken->token);
+                        $this->enviar("Te agregaron a una reunion","Tu equipo de  $pro->Name fecha:$meeting->StartDate","https://retos-directivos.eae.es/wp-content/uploads/2017/07/iStock-603992138-e1501191253921.jpg",$usertoken->token);
 
                     }
 
