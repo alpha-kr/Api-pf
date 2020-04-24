@@ -101,8 +101,19 @@ class TokenUserController extends Controller
      * @param  \App\tokenUser  $tokenUser
      * @return \Illuminate\Http\Response
      */
-    public function destroy(tokenUser $tokenUser)
+    public function destroy($id)
     {
-        //
+        $usertoken= tokenUser::where('user',$id)->first();
+        if (!empty($usertoken)) {
+             $usertoken-> delete();
+             $res=array(
+                'status'=>"succes",
+                'code'=>200,
+                'messege'=> "usuario y token eliminado",
+
+            );
+            return \response()->json($res,200);
+        }
+
     }
 }
