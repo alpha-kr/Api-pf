@@ -296,7 +296,7 @@ class meetingsController extends Controller
             'title' => $title,
         'body' => $body,
         'image' => $img,
-            'color' => '#f45342',
+            'color' => '#0D0F74',
         ],
     ]);
     $messaging = $firebase->createMessaging();
