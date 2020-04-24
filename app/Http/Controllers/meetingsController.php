@@ -7,6 +7,8 @@ use App\project;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Messaging\Notification;
+use Kreait\Firebase\Messaging\AndroidConfig;
+
 use App\User;
 
 class meetingsController extends Controller
@@ -287,10 +289,21 @@ class meetingsController extends Controller
         'body' => $body,
         'image' => $img
     ]);
+    $config = AndroidConfig::fromArray([
+        'ttl' => '3600s',
+        'priority' => 'normal',
+        'notification' => [
+            'title' => $title,
+        'body' => $body,
+        'image' => $img,
+            'color' => '#f45342',
+        ],
+    ]);
     $messaging = $firebase->createMessaging();
     $message = CloudMessage::withTarget('token',$token)
         ->withNotification($notification)
         ->withData(['score' => '1.0']);
+        $message= $message->withAndroidConfig($config);
         $messaging->send($message);
 }
 }
