@@ -31,15 +31,17 @@ class TaskController extends Controller
         $res=array('code'=>400, 'message'=>"Error Json");
         if (!empty($json)) {
             $validacion=\Validator::make($json,
-            [    
+            [
                 'Name'=> 'required|string',
                 'Description'=>'required |string',
                 'Status'=>'required |integer |exists:status,id',
+                'priority'=>'required|integer|min:0|max:2',
+                'level'=>'required|integer|min:0|max:2',
                 'ProjectID'=>' required|integer|exists:projects,id',
                 'Sprint_id'=>'integer|exists:sprints,id',
                 'UserStoryID'=>'integer|exists:userstory,id',
-                
-                                 
+
+
             ]);
             if ($validacion->fails()) {
                 $res=array(
@@ -47,21 +49,21 @@ class TaskController extends Controller
                     'code'=>400,
                     'messege'=> "tarea no creada",
                     'mistakes'=>$validacion->errors()
-                ); 
+                );
                 return response()->json($res,400);
-            }else{ 
+            }else{
                 $task= new task($json);
-                
+
                 if ($task->save()) {
                     return response()->json(['status'=>'succes','code'=>201,'message'=>'tarea  creada']);
 
                 }
-               
+
 
             }
         }
 
-         
+
     }
 
     /**
@@ -74,25 +76,25 @@ class TaskController extends Controller
     {
        if (!empty($id)) {
           $pro=project::find($id);
-       
+
           if (!empty($pro)) {
-              
+
             return response()->json($pro->tasks()->with('commentes_files')->get(),200);
 
           }
-       } 
+       }
     }
     public function show($id=null)
     {
-        if (!empty($id)) {           
+        if (!empty($id)) {
             $task=task::with('comments')->find($id) ;
             return response()->json($task,200);
-         }else{            
+         }else{
             $task=task::with('comments')->get();
             return response()->json($task,200);
 
          }
-        
+
     }
 
     /**
@@ -112,11 +114,12 @@ class TaskController extends Controller
                 'Name'=> 'required|string',
                 'Description'=>'required |string',
                 'Status'=>'required |integer |exists:status,id',
-                 
+                'priority'=>'required|integer|min:0|max:2',
+                'level'=>'required|integer|min:0|max:2',
                 'Sprint_id'=>'integer|nullable|exists:sprints,id',
                 'UserStoryID'=>'integer|exists:userstory,id',
-                
-                                 
+
+
             ]);
             if ($validacion->fails()) {
                 $res=array(
@@ -124,28 +127,31 @@ class TaskController extends Controller
                     'code'=>400,
                     'messege'=> "Tarea no actualizada",
                     'mistakes'=>$validacion->errors()
-                ); 
+                );
                 return response()->json($res,400);
-            }else{ 
+            }else{
                 $task=  task::find($json['id']);
                 if (!empty($task) ){
                     $task->Name=$json['Name'];
                     $task->Description=$json['Description'];
                     $task->Status=$json['Status'];
+                    $task->level=$json['level'];
+                    $task->priority=$json['priority'];
+
                     $task->Sprint_id=(isset($json['Sprint_id']))?$json['Sprint_id']:null;
                     $task->UserStoryID=(isset($json['UserStoryID']))?$json['UserStoryID']:null;
-                    
+
                 }
                 if ($task->save()) {
                     return response()->json(['status'=>'succes','code'=>200,'message'=>'tarea  actualizada']);
 
                 }
-               
+
 
             }
         }
 
-        
+
     }
 
     /**
@@ -171,8 +177,8 @@ class TaskController extends Controller
             }
             return response()->json($res,$res['code']);
 
-         } 
-        
+         }
+
     }
     public function addUser(Request $request)
     {
@@ -194,23 +200,23 @@ class TaskController extends Controller
                 'code'=>400,
                 'messege'=> "usurio no agregado",
                 'mistakes'=>$val->errors()
-                
+
             );
             return \response()->json($res,400);
         }
     }
     public function showUser($id=null)
     {
-      
+
         $task=task::find($id);
         if (!empty($task)) {
             return \response()->json($task->users,200);
-            
+
         }else{
-         
+
             return \response()->json(task::all(),200);
         }
-        
+
     }
     public function destroyUser($id,$iduser)
     {
@@ -219,7 +225,7 @@ class TaskController extends Controller
         $user=User::find($iduser);
         $task=$user->tasks()->where('id',$id)->first();
         if (!empty($task) && !empty($user)) {
-             $task->users()->detach($user->id); 
+             $task->users()->detach($user->id);
              return response()->json(["status"=>"succes" ,"message"=>"usuario:{$user->email} borrado de tarea:{$task->Name}"],200);
         }else{
             response()->json([ 'status'=>"error",

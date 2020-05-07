@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class file extends Model
 {
-   protected $fillable=['ruta','id_comments'];
+   protected $fillable=['ruta','id_comments','id_reunion'];
    protected $table='files';
 }
