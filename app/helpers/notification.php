@@ -15,7 +15,7 @@ use Kreait\Firebase\Messaging\AndroidConfig;
             'title' => $title,
             'body' => $body,
             'image' => $img,
-            'icon'=>'https://www.computerhope.com/jargon/t/task.jpg'
+            'icon'=>"https://www.computerhope.com/jargon/t/task.jpg"
         ]);
         $config = AndroidConfig::fromArray([
             'ttl' => '3600s',
