@@ -19,7 +19,7 @@ Route::get('/', function () {
 });
 
 Route::post('files','FileController@store');
-Route::get('files/acta/{id}/{has?}','FileController@showacta');
+Route::get('files/acta/{id}/{has}','FileController@showacta');
 Route::delete('users/token/{id}','TokenUserController@destroy');
 Route::post('users/token','TokenUserController@store');
 Route::put('users/token','TokenUserController@update');
