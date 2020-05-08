@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\meetings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\file;
@@ -34,7 +34,7 @@ class FileController extends Controller
         $val = \Validator::make(
             $json,
             [
-                'id_reunion'=>'required|exists:meetings,id|integer',
+                'id_reunion'=>'required|exists:meetings,id|integer|unique:files,id_reunion',
                 'files'=>'array'
 
             ]
@@ -154,6 +154,28 @@ class FileController extends Controller
 
             );
             return \response()->json($res,200);
+        }
+    }
+    public function destroyActa($id)
+    {
+
+
+        $file=meetings::find($id);
+        if (!empty($file)) {
+            $file=file::where('id_reunion',$id)->first();
+            if (!empty($file)) {
+                Storage::delete($file->ruta);
+                $file->delete();
+                $res = array(
+                    'status' => "OK",
+                    'code' => 201,
+                    'messege' => "Archivo   eliminado",
+
+
+                );
+                return \response()->json($res,200);
+            }
+
         }
     }
 }

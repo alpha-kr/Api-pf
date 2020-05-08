@@ -17,7 +17,7 @@ use \App\Http\Middleware\checkuserpro;
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::delete('files/acta/{id}','FileController@destroyActa');
 Route::post('files','FileController@store');
 Route::get('files/acta/{id}/{has}','FileController@showacta');
 Route::delete('users/token/{id}','TokenUserController@destroy');
