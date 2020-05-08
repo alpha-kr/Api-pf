@@ -79,9 +79,12 @@ class FileController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
+
     {
+
         $file=file::find($id);
         if (!empty($file)) {
+
 
             $archivo=Storage::get($file->ruta);
              $res=['name'=>$file->ruta ,'base64'=>base64_encode($archivo)];
@@ -90,16 +93,27 @@ class FileController extends Controller
 
         }
     }
-    public function showacta($id)
+    public function showacta($id,$has)
     {
+
         if (!empty($id)) {
             $file=file::where('id_reunion',$id)->first();
-            if (!empty($file)) {
-             $archivo=Storage::get($file->ruta);
-             $res=['name'=>$file->ruta ,'base64'=>base64_encode($archivo)];
+            if (!empty($file) &&  $has=='false') {
 
-            return response()->json($res,200);
 
+                $archivo=Storage::get($file->ruta);
+                 $res=['name'=>$file->ruta ,'base64'=>base64_encode($archivo)];
+
+                return response()->json($res,200);
+
+            }else{
+                if ($has=='true' && !empty($file)   ) {
+                    return response()->json(["response"=>true],200);
+                }else{
+                    if ($has=='true' && empty($file)) {
+                        return response()->json(["response"=>false],200);
+                    }
+                }
             }
         }
 
