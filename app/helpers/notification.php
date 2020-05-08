@@ -18,7 +18,7 @@ use Kreait\Firebase\Messaging\WebPushConfig;
                 'title' => $title,
                 'body' => $body,
                 'image' => $img,
-                'icon'=>"https://www.computerhope.com/jargon/t/task.jpg"
+                'icon'=>"https://img2.freepng.es/20180811/bux/kisspng-scrum-logo-agile-software-development-portable-net-stefan-vitz-stack-overflow-5b6f314bd6ea49.7623769515340137718803.jpg"
             ],
             'fcm_options' => [
                 'link' => 'https://jaj-proyect.web.app/',
