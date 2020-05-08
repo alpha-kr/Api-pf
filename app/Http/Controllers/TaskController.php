@@ -193,7 +193,7 @@ class TaskController extends Controller
             $t->users()->attach($user->id);
 
             foreach ($user->tokens as $usertoken) {
-            \app\helpers\NotificationFB::enviar("Tienes una nueva tarea","Fuiste agregado a la tarea {$t->Name} del proyecto {$p->Name}",$usertoken->token);
+            \app\helpers\NotificationFB::enviar("Tienes una nueva tarea","Fuiste agregado a la tarea {$t->Name} del proyecto {$p->Name}",'https://www.coca-colamexico.com.mx/content/dam/journey/mx/es/private/historia/2016/yo-me-subo/Agosto/tarea-yomesubo.rendition.320.179.jpgs',$usertoken->token);
             }
             return response()->json(['status'=>'succes','code'=>200,'message'=>'usuario  agregado']);
 
