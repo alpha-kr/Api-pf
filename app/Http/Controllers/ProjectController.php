@@ -131,7 +131,7 @@ class ProjectController extends Controller
 
                 $user->projets()->attach($pro->id,['Role'=>$datos['id_role']] );
                 foreach ($user->tokens as $usertoken) {
-                    \app\helpers\NotificationFB::enviar("Tienes un nuevo proyecto","Fuiste agregado al proyecto:{$pro->Name} ",$usertoken->token);
+                    \app\helpers\NotificationFB::enviar("Tienes un nuevo proyecto","Fuiste agregado al proyecto:{$pro->Name} ",'https://blog.wearedrew.co/hubfs/metodolog%C3%ADa%20scrum.png',$usertoken->token);
                     }
                 return response()->json(["status"=>"succes" ,"message"=>"usuario:{$user->email} agregado a proyecto:{$pro->Name} con role:{$role->Nombre} "],201);
             }
