@@ -55,7 +55,7 @@ class TaskController extends Controller
                 $task= new task($json);
 
                 if ($task->save()) {
-                    return response()->json(['status'=>'succes','code'=>201,'message'=>'tarea  creada']);
+                    return response()->json(['status'=>'succes','code'=>201,'message'=>'tarea  creada','task'=>$task]);
 
                 }
 
@@ -188,8 +188,13 @@ class TaskController extends Controller
         'user'=>'required|integer|exists:users,id' ]);
         if (!$val->fails()) {
             $t=task::find($json['task']);
+            $p=project::find($t->ProjectID);
             $user=User::find($json['user']);
             $t->users()->attach($user->id);
+
+            foreach ($user->tokens as $usertoken) {
+            \app\helpers\NotificationFB::enviar("Tienes una nueva tarea","Fuiste agregado a la tarea {$t->Name} del proyecto {$p->Name}",$usertoken->token);
+            }
             return response()->json(['status'=>'succes','code'=>200,'message'=>'usuario  agregado']);
 
 
@@ -234,4 +239,5 @@ class TaskController extends Controller
                 'mistakes'=> ["Error"=>"Usuario no pertenece a esa tarea o id incorrectos en ambos casos"] ],400);
         }
     }
+
 }

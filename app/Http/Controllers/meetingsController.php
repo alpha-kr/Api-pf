@@ -185,7 +185,6 @@ class meetingsController extends Controller
                 if (!empty($user)) {
                     foreach ($user->tokens as $usertoken) {
                         $this->enviar("Te agregaron a una reunion","Tu equipo de  $pro->Name fecha:$meeting->StartDate","https://retos-directivos.eae.es/wp-content/uploads/2017/07/iStock-603992138-e1501191253921.jpg",$usertoken->token);
-
                     }
 
                     $user->meetings()->attach($meeting->id);
