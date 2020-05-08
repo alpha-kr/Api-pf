@@ -10,7 +10,7 @@ use Kreait\Firebase\Messaging\AndroidConfig;
 
 
 
-        $firebase  = (new Factory)->withServiceAccount(__DIR__.'../controllers/firebasekey.json');
+        $firebase  = (new Factory)->withServiceAccount(__DIR__.'/firebasekey.json');
         $notification = Notification::fromArray([
             'title' => $title,
             'body' => $body,
