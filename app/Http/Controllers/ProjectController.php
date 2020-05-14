@@ -107,6 +107,16 @@ class ProjectController extends Controller
             return response()->json($pro->user,200);
          }
     }
+    public function projectProblem($id)
+    {
+        if (!empty($id)) {
+            $pro=project::find($id);
+            if (!empty($pro)) {
+                return response()->json($pro->problems,200);
+            }
+
+         }
+    }
     public function addUser(Request $request)
     {
         $json=json_decode(json_encode($request->all()),true );
