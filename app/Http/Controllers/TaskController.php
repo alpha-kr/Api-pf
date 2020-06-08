@@ -192,10 +192,14 @@ class TaskController extends Controller
             $user=User::find($json['user']);
 
             $t->users()->attach($user->id);
-
-            foreach ($user->tokens as $usertoken) {
-            \app\helpers\NotificationFB::enviar("Tienes una nueva tarea","Fuiste agregado a la tarea {$t->Name} del proyecto {$p->Name}",'https://jipanel.com/blog/image/19/post-1529640873-image_fileuser_id_43.png',$usertoken->token);
+            try {
+                foreach ($user->tokens as $usertoken) {
+                    \app\helpers\NotificationFB::enviar("Tienes una nueva tarea","Fuiste agregado a la tarea {$t->Name} del proyecto {$p->Name}",'https://jipanel.com/blog/image/19/post-1529640873-image_fileuser_id_43.png',$usertoken->token);
+                    }
+            } catch (\Throwable $th) {
+                //throw $th;
             }
+
             return response()->json(['status'=>'succes','code'=>200,'message'=>'usuario  agregado']);
 
 

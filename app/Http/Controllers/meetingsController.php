@@ -183,9 +183,14 @@ class meetingsController extends Controller
                 $pro=$meeting->project;
                 $user=$pro->user()->where('id',$json['user_id'])->first();
                 if (!empty($user)) {
-                    foreach ($user->tokens as $usertoken) {
-                        \app\helpers\NotificationFB::enviar("Te agregaron a una reunion","Tu equipo de  $pro->Name fecha:$meeting->StartDate","https://retos-directivos.eae.es/wp-content/uploads/2017/07/iStock-603992138-e1501191253921.jpg",$usertoken->token);
+                    try {
+                        foreach ($user->tokens as $usertoken) {
+                            \app\helpers\NotificationFB::enviar("Te agregaron a una reunion","Tu equipo de  $pro->Name fecha:$meeting->StartDate","https://retos-directivos.eae.es/wp-content/uploads/2017/07/iStock-603992138-e1501191253921.jpg",$usertoken->token);
+                        }
+                    } catch (\Throwable $th) {
+
                     }
+
 
                     $user->meetings()->attach($meeting->id);
                     $res=array(
