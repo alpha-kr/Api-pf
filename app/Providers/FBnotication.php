@@ -13,7 +13,7 @@ class FBnotication extends ServiceProvider
      */
     public function register()
     {
-        require_once app_path().'/helpers/notification.php' ;
+        require_once app_path().'/helpers/NotificationFB.php' ;
     }
 
     /**
