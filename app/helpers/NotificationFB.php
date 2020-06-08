@@ -11,7 +11,7 @@ use Kreait\Firebase\Messaging\WebPushConfig;
 
     }
 
-    public  function enviar($title,$body,$img=null, $token)
+    public static function enviar($title,$body,$img=null, $token)
     {
 
 
